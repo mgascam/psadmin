@@ -23,6 +23,7 @@ var config = {
             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
         ],
         mainJs: './src/main.js',
+        images: './src/images/*',
         dist: './dist'
     }
 };
@@ -75,4 +76,14 @@ gulp.task('lint', function () {
         .pipe(eslint.format());
 });
 
-gulp.task('default', ['html','js','css', 'lint', 'open', 'watch']);
+gulp.task('images', function () {
+    gulp.src(config.paths.images)
+        .pipe(gulp.dest(config.paths.dist + '/images'))
+        .pipe(connect.reload());
+
+    // publish favicon
+    gulp.src('./src/favicon.ico')
+        .pipe(gulp.dest(config.paths.dist));
+});
+
+gulp.task('default', ['html','js','css', 'images', 'lint', 'open', 'watch']);
